@@ -22,7 +22,7 @@ const Input = ({
   disabled,
 }: InputProps) => {
   return (
-    <div className="border border-solid border-red-800 ">
+    <div className="">
       <label
         className="block text-sm font-medium leading-6 text-gray-900"
         htmlFor={id}

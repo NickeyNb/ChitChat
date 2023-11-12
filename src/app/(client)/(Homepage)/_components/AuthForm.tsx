@@ -5,7 +5,9 @@ import { useCallback, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
-
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
@@ -33,21 +35,48 @@ const AuthForm = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
     if (variant === "REGISTER") {
-      // Axios register
+      axios
+        .post("/api/register", data) // data consists of name, email, password
+        .catch(() => toast.error("Something went wrong"))
+        .finally(() => setIsLoading(false));
     }
     if (variant === "LOGIN") {
       // NextAuth signin
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Invalid credentials");
+          }
+          if (callback?.ok && !callback?.error) {
+            toast.success("Logged in");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
-  const socialAction = (actions: string) => {
+  const socialAction = (action: string) => {
     setIsLoading(true);
     // NextAuth social sign in
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Invalid Credentials");
+        }
+        if (callback?.ok && !callback.error) {
+          toast.success("Logged In");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
-    <div className="mt-8 border border-solid border-red-800 sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="mt-8  sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white  px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6 " onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
