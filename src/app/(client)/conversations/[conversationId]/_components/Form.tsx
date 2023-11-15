@@ -3,7 +3,7 @@
 import { HiPaperAirplane, HiPhoto } from "react-icons/hi2";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
-// import { CldUploadButton } from "next-cloudinary";
+import { CldUploadButton } from "next-cloudinary";
 import useConversation from "@/hooks/useConversation";
 import MessageInput from "../../_components/MessageInput";
 
@@ -50,13 +50,13 @@ const Form = () => {
         lg:gap-4
       "
     >
-      {/* <CldUploadButton 
-        options={{ maxFiles: 1 }} 
-        onUpload={handleUpload} 
-        uploadPreset="pgc9ehd5"
+      <CldUploadButton
+        options={{ maxFiles: 1 }}
+        onUpload={handleUpload}
+        uploadPreset="bmwg57tc"
       >
         <HiPhoto size={30} className="text-sky-500" />
-      </CldUploadButton> */}
+      </CldUploadButton>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full items-center gap-2 lg:gap-4"
