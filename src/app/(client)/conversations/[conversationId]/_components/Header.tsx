@@ -70,12 +70,11 @@ const Header = ({ conversation }: HeaderProps) => {
           >
             <HiChevronLeft size={32} />
           </Link>
-          {/* {conversation.isGroup ? (
+          {conversation.isGroup ? (
             <AvatarGroup users={conversation.users} />
           ) : (
             <Avatar user={otherUser} />
-          )} */}
-          <Avatar user={otherUser} />
+          )}
 
           <div className="flex flex-col">
             <div>{conversation.name || otherUser.name}</div>

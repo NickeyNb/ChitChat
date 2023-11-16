@@ -9,7 +9,7 @@ import clsx from "clsx";
 // import { find, uniq } from "lodash";
 
 // import { pusherClient } from "@/app/libs/pusher";
-// import GroupChatModal from "@/app/components/modals/GroupChatModal";
+import GroupChatModal from "@/components/modals/GroupChatModal";
 import useConversation from "@/hooks/useConversation";
 import ConversationBox from "./ConversationBox";
 import { FullConversationType } from "@/types";
@@ -78,11 +78,11 @@ const ConversationList = ({ initialItems, users }: ConversationListProps) => {
 
   return (
     <>
-      {/* <GroupChatModal
+      <GroupChatModal
         users={users}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-      /> */}
+      />
       <aside
         className={clsx(
           `

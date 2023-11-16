@@ -1,6 +1,6 @@
 "use client";
 
-// import Modal from "@/app/components/modals/Modal";
+import Modal from "@/components/modals/Modal";
 
 import Image from "next/image";
 
@@ -10,7 +10,7 @@ interface ImageModalProps {
   src?: string | null;
 }
 
-const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src }) => {
+const ImageModal = ({ isOpen, onClose, src }: ImageModalProps) => {
   if (!src) {
     return null;
   }
