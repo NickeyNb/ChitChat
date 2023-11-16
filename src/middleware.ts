@@ -7,7 +7,7 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ["/users/:path*"],
+  matcher: ["/users/:path*", "/conversations/:path*"],
 };
 
 // it will protect /users/uslkf/sjdlfa

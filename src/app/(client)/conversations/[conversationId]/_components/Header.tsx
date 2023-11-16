@@ -10,8 +10,8 @@ import useOtherUser from "@/hooks/useOtherUser";
 // import useActiveList from "@/hooks/useActiveList";
 
 import Avatar from "@/components/Avatar";
-// import AvatarGroup from "@/app/components/AvatarGroup";
-// import ProfileDrawer from "./ProfileDrawer";
+import ProfileDrawer from "./ProfileDrawer";
+import AvatarGroup from "@/components/AvatarGroup";
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -36,11 +36,11 @@ const Header = ({ conversation }: HeaderProps) => {
 
   return (
     <>
-      {/* <ProfileDrawer
+      <ProfileDrawer
         data={conversation}
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-      /> */}
+      />
       <div
         className="
         flex 
