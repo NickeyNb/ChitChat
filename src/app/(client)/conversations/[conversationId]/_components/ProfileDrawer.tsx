@@ -7,8 +7,7 @@ import { Conversation, User } from "@prisma/client";
 import { format } from "date-fns";
 
 import useOtherUser from "@/hooks/useOtherUser";
-// import useActiveList from "@/app/hooks/useActiveList";
-
+import useActiveList from "@/hooks/useActiveList";
 import Avatar from "@/components/Avatar";
 import AvatarGroup from "@/components/AvatarGroup";
 import ConfirmModal from "./ConfirmModal";
@@ -33,16 +32,16 @@ const ProfileDrawer = ({ isOpen, onClose, data }: ProfileDrawerProps) => {
     return data.name || otherUser.name;
   }, [data.name, otherUser.name]);
 
-  //   const { members } = useActiveList();
-  //   const isActive = members.indexOf(otherUser?.email!) !== -1;
+  const { members } = useActiveList();
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
 
-  //   const statusText = useMemo(() => {
-  //     if (data.isGroup) {
-  //       return `${data.users.length} members`;
-  //     }
+  const statusText = useMemo(() => {
+    if (data.isGroup) {
+      return `${data.users.length} members`;
+    }
 
-  //     return isActive ? "Active" : "Offline";
-  //   }, [data, isActive]);
+    return isActive ? "Active" : "Offline";
+  }, [data, isActive]);
 
   return (
     <>
@@ -103,7 +102,7 @@ const ProfileDrawer = ({ isOpen, onClose, data }: ProfileDrawerProps) => {
                           </div>
                           <div>{title}</div>
                           <div className="text-sm text-gray-500">
-                            {/* {statusText} */}
+                            {statusText}
                           </div>
                           <div className="my-8 flex gap-10">
                             <div

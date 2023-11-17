@@ -6,9 +6,9 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import clsx from "clsx";
-// import { find, uniq } from "lodash";
+import { find, uniq } from "lodash";
+import { pusherClient } from "@/libs/pusher";
 
-// import { pusherClient } from "@/app/libs/pusher";
 import GroupChatModal from "@/components/modals/GroupChatModal";
 import useConversation from "@/hooks/useConversation";
 import ConversationBox from "./ConversationBox";
@@ -33,48 +33,48 @@ const ConversationList = ({ initialItems, users }: ConversationListProps) => {
     return session.data?.user?.email;
   }, [session.data?.user?.email]);
 
-  //   useEffect(() => {
-  //     if (!pusherKey) {
-  //       return;
-  //     }
+  useEffect(() => {
+    if (!pusherKey) {
+      return;
+    }
 
-  // pusherClient.subscribe(pusherKey);
+    pusherClient.subscribe(pusherKey);
 
-  // const updateHandler = (conversation: FullConversationType) => {
-  //   setItems((current) =>
-  //     current.map((currentConversation) => {
-  //       if (currentConversation.id === conversation.id) {
-  //         return {
-  //           ...currentConversation,
-  //           messages: conversation.messages,
-  //         };
-  //       }
+    const updateHandler = (conversation: FullConversationType) => {
+      setItems((current) =>
+        current.map((currentConversation) => {
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages,
+            };
+          }
 
-  //       return currentConversation;
-  //     }),
-  //   );
-  // };
+          return currentConversation;
+        }),
+      );
+    };
 
-  // const newHandler = (conversation: FullConversationType) => {
-  //   setItems((current) => {
-  //     if (find(current, { id: conversation.id })) {
-  //       return current;
-  //     }
+    const newHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        if (find(current, { id: conversation.id })) {
+          return current;
+        }
 
-  //     return [conversation, ...current];
-  //   });
-  // };
+        return [conversation, ...current];
+      });
+    };
 
-  //     const removeHandler = (conversation: FullConversationType) => {
-  //       setItems((current) => {
-  //         return [...current.filter((convo) => convo.id !== conversation.id)];
-  //       });
-  //     };
+    const removeHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        return [...current.filter((convo) => convo.id !== conversation.id)];
+      });
+    };
 
-  //     pusherClient.bind("conversation:update", updateHandler);
-  //     pusherClient.bind("conversation:new", newHandler);
-  //     pusherClient.bind("conversation:remove", removeHandler);
-  //   }, [pusherKey, router]);
+    pusherClient.bind("conversation:update", updateHandler);
+    pusherClient.bind("conversation:new", newHandler);
+    pusherClient.bind("conversation:remove", removeHandler);
+  }, [pusherKey, router]);
 
   return (
     <>
