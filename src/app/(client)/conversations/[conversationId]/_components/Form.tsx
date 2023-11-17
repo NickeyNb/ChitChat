@@ -1,11 +1,11 @@
 "use client";
 
 import { HiPaperAirplane, HiPhoto } from "react-icons/hi2";
+import MessageInput from "../../_components/MessageInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import { CldUploadButton } from "next-cloudinary";
 import useConversation from "@/hooks/useConversation";
-import MessageInput from "../../_components/MessageInput";
 
 const Form = () => {
   const { conversationId } = useConversation();
@@ -53,7 +53,7 @@ const Form = () => {
       <CldUploadButton
         options={{ maxFiles: 1 }}
         onUpload={handleUpload}
-        uploadPreset="bmwg57tc"
+        uploadPreset="pgc9ehd5"
       >
         <HiPhoto size={30} className="text-sky-500" />
       </CldUploadButton>
