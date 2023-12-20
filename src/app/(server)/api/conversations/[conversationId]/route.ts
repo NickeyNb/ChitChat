@@ -1,6 +1,5 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-
 import prisma from "@/libs/prismadb";
 import { pusherServer } from "@/libs/pusher";
 
@@ -17,7 +16,8 @@ export async function DELETE(
     const currentUser = await getCurrentUser();
 
     if (!currentUser?.id) {
-      return NextResponse.json(null);
+      console.error("Invalid current user:", currentUser);
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const existingConversation = await prisma.conversation.findUnique({
@@ -30,6 +30,7 @@ export async function DELETE(
     });
 
     if (!existingConversation) {
+      console.error("Conversation not found for ID:", conversationId);
       return new NextResponse("Invalid ID", { status: 400 });
     }
 
@@ -43,17 +44,28 @@ export async function DELETE(
     });
 
     existingConversation.users.forEach((user) => {
-      if (user.email) {
-        pusherServer.trigger(
-          user.email,
-          "conversation:remove",
-          existingConversation,
-        );
+      try {
+        if (user.email) {
+          pusherServer.trigger(
+            user.email,
+            "conversation:remove",
+            existingConversation,
+          );
+        }
+      } catch (pusherError: any) {
+        console.error("Error triggering conversation:remove event:", pusherError);
+
+        // Log the Pusher error message (adjust the property based on your Pusher library version)
+        const errorMessage = (pusherError as { data?: { message?: string } })?.data?.message || pusherError.message;
+        console.error("Pusher Error Message:", errorMessage);
+
+        // Handle the error accordingly
       }
     });
 
     return NextResponse.json(deletedConversation);
   } catch (error) {
-    return NextResponse.json(null);
+    console.error("Error in DELETE request:", error);
+    return new NextResponse("Error", { status: 500 });
   }
 }

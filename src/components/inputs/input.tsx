@@ -32,7 +32,8 @@ const Input = ({
       <div className="mt-2">
         <input
           id={id}
-          type="text"
+          required
+          type={type}
           autoComplete={id}
           disabled={disabled}
           {...register(id, { required })}

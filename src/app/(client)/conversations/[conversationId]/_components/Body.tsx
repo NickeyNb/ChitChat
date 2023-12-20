@@ -20,8 +20,12 @@ const Body = ({ initialMessages = [] }: BodyProps) => {
 
   const { conversationId } = useConversation();
 
+  const getUseEffect = async() => {
+    await axios.post(`/api/conversations/${conversationId}/seen`);
+
+  }
   useEffect(() => {
-    axios.post(`/api/conversations/${conversationId}/seen`);
+    getUseEffect(); 
   }, [conversationId]);
 
   useEffect(() => {
